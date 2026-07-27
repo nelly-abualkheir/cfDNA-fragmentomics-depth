@@ -1,0 +1,12 @@
+name: cfdna-fragmentomics
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - statsmodels
+  - jupyter

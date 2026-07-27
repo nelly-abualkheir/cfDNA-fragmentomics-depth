@@ -1,0 +1,41 @@
+# Raw sequencing / fragment files
+*.bgz
+*.gz
+*.bam
+*.bai
+*.fastq
+*.fq
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+
+# Large derived simulation table
+data/processed/regional_downsampling_simulations.csv
+
+# Development / pilot files
+notebooks/01_Project_Setup_and_Pilot_Processing.ipynb
+data/processed/EE87786*
+data/processed/EE87935*
+
+# Duplicate figures already stored under results/figures
+data/processed/Figure*.png
+
+# Pilot metadata and outputs
+data/metadata/pilot_*
+data/processed/pilot_*
+
+# Final result tables are stored under results/tables
+data/processed/depth_classification_results.csv
+data/processed/depth_classification_summary.csv
+data/processed/depth_profile_stability.csv
+data/processed/global_feature_comparison.csv
