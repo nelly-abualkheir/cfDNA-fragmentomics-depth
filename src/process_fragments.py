@@ -11,11 +11,11 @@ import pandas as pd
 # PROJECT SETTINGS
 # ============================================================
 
-BASE_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = Path(__file__).resolve().parents[1]
 
-CANCER_DIR = BASE_DIR / "breast_cancer"
-HEALTHY_DIR = BASE_DIR / "healthy"
-OUTPUT_DIR = BASE_DIR / "processed"
+CANCER_DIR = PROJECT_DIR / "data" / "raw" / "breast_cancer"
+HEALTHY_DIR = PROJECT_DIR / "data" / "raw" / "healthy"
+OUTPUT_DIR = PROJECT_DIR / "data" / "processed"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -348,16 +348,15 @@ if __name__ == "__main__":
     print("Breast cancer:", len(cancer_files))
     print("Healthy:", len(healthy_files))
 
-    # FULL COHORT PROCESSING
+    # Full cohort processing
+    print("\nStarting full cohort processing...")
 
-print("\nStarting full cohort processing...")
+    for i, file_path in enumerate(cancer_files, start=1):
+        print(f"\nCancer sample {i}/{len(cancer_files)}")
+        process_sample(file_path, "Breast cancer")
 
-for i, file_path in enumerate(cancer_files, start=1):
-    print(f"\nCancer sample {i}/{len(cancer_files)}")
-    process_sample(file_path, "Breast cancer")
+    for i, file_path in enumerate(healthy_files, start=1):
+        print(f"\nHealthy sample {i}/{len(healthy_files)}")
+        process_sample(file_path, "Healthy")
 
-for i, file_path in enumerate(healthy_files, start=1):
-    print(f"\nHealthy sample {i}/{len(healthy_files)}")
-    process_sample(file_path, "Healthy")
-
-print("\nFULL COHORT PROCESSING COMPLETE")
+    print("\nFULL COHORT PROCESSING COMPLETE")
