@@ -26,6 +26,31 @@ Final cohort:
 
 Raw fragment-level `.bgz` files are not included in the repository because of their large size.
 
+## Raw Data Acquisition
+
+Raw cfDNA fragment-level data were obtained from FinaleDB from the Cristiano et al. (2019) study.
+
+The FinaleDB query interface was filtered to the relevant breast cancer and healthy plasma samples. Only hg38 fragment files were used in this project.
+
+The exact analytical cohort is listed in:
+
+`data/metadata/cohort_manifest.csv`
+
+To reproduce the preprocessing step:
+
+1. Open FinaleDB and navigate to the sample query/download interface.
+2. Select the Cristiano et al. (2019) study.
+3. Select blood plasma samples from the breast cancer and healthy groups.
+4. Use the WGS data and hg38 fragment files.
+5. Download the files corresponding to the sample IDs listed in `data/metadata/cohort_manifest.csv`.
+6. Organize the downloaded files as:
+
+```text
+data/raw/
+├── breast_cancer/
+└── healthy/
+```
+
 ## Workflow
 
 1. Download fragment-level data from FinaleDB.
@@ -94,7 +119,7 @@ The notebook performs QC, feature construction, statistical testing, PCA, classi
 
 ## Reproducibility
 
-Fixed random seeds were used for simulated downsampling and model evaluation. Raw sequencing-fragment files are not stored in GitHub because of their size. Processed cohort-level tables are provided where practical to support reproduction of the downstream analysis.
+Fixed random seeds were used for simulated downsampling and model evaluation. Raw sequencing-fragment files are not stored in GitHub because of their large size; however, they are publicly available through FinaleDB. The exact 92-sample analytical cohort and expected filenames are documented in data/metadata/cohort_manifest.csv. The preprocessing script converts the downloaded hg38 fragment files into the processed cohort-level tables used by the downstream analysis notebook. Processed data, analysis code, result tables, figures, and the software environment are included in the repository to support reproduction of the analysis.
 
 ## Key Software
 
