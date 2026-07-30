@@ -113,7 +113,7 @@ The preprocessing script generates QC summaries, global fragment-length counts, 
 
 Open:
 
-`notebooks/cfDNA_Fragmentomics_Final_Analysis.ipynb`
+`notebooks/cfDNA_Fragmentomics_Analysis.ipynb`
 
 The notebook performs QC, feature construction, statistical testing, PCA, classification, simulated sequencing-depth reduction, feature-stability analysis, and final visualization.
 
