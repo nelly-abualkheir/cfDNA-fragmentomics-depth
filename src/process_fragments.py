@@ -336,27 +336,118 @@ def process_sample(file_path, group):
 
 if __name__ == "__main__":
 
-    cancer_files = sorted(
-        CANCER_DIR.glob("*.hg38.frag.tsv.bgz")
+    MANIFEST_FILE = (
+        PROJECT_DIR
+        / "data"
+        / "metadata"
+        / "cohort_manifest.csv"
     )
 
-    healthy_files = sorted(
-        HEALTHY_DIR.glob("*.hg38.frag.tsv.bgz")
-    )
+    if not MANIFEST_FILE.exists():
+        raise FileNotFoundError(
+            f"Cohort manifest not found: {MANIFEST_FILE}"
+        )
 
-    print("\nFiles detected:")
+    manifest = pd.read_csv(MANIFEST_FILE)
+
+    required_columns = {
+        "sample_id",
+        "group",
+        "filename",
+    }
+
+    missing_columns = required_columns - set(manifest.columns)
+
+    if missing_columns:
+        raise ValueError(
+            f"Manifest is missing required columns: "
+            f"{sorted(missing_columns)}"
+        )
+
+    if len(manifest) != 92:
+        raise ValueError(
+            f"Expected 92 samples in manifest, "
+            f"found {len(manifest)}"
+        )
+
+    if manifest["sample_id"].duplicated().any():
+        raise ValueError(
+            "Duplicate sample IDs found in cohort manifest."
+        )
+
+    cancer_manifest = manifest.loc[
+        manifest["group"] == "Breast cancer"
+    ].copy()
+
+    healthy_manifest = manifest.loc[
+        manifest["group"] == "Healthy"
+    ].copy()
+
+    if len(cancer_manifest) != 46:
+        raise ValueError(
+            f"Expected 46 breast cancer samples, "
+            f"found {len(cancer_manifest)}"
+        )
+
+    if len(healthy_manifest) != 46:
+        raise ValueError(
+            f"Expected 46 healthy samples, "
+            f"found {len(healthy_manifest)}"
+        )
+
+    cancer_files = [
+        CANCER_DIR / filename
+        for filename in cancer_manifest["filename"]
+    ]
+
+    healthy_files = [
+        HEALTHY_DIR / filename
+        for filename in healthy_manifest["filename"]
+    ]
+
+    missing_files = [
+        file_path
+        for file_path in cancer_files + healthy_files
+        if not file_path.exists()
+    ]
+
+    if missing_files:
+        print("\nMissing raw files:")
+
+        for file_path in missing_files:
+            print(" -", file_path)
+
+        raise FileNotFoundError(
+            f"{len(missing_files)} raw cohort files are missing."
+        )
+
+    print("\nCohort manifest validated.")
     print("Breast cancer:", len(cancer_files))
     print("Healthy:", len(healthy_files))
+    print("Total:", len(cancer_files) + len(healthy_files))
 
-    # Full cohort processing
     print("\nStarting full cohort processing...")
 
     for i, file_path in enumerate(cancer_files, start=1):
-        print(f"\nCancer sample {i}/{len(cancer_files)}")
-        process_sample(file_path, "Breast cancer")
+        print(
+            f"\nCancer sample "
+            f"{i}/{len(cancer_files)}"
+        )
+
+        process_sample(
+            file_path,
+            "Breast cancer"
+        )
 
     for i, file_path in enumerate(healthy_files, start=1):
-        print(f"\nHealthy sample {i}/{len(healthy_files)}")
-        process_sample(file_path, "Healthy")
+        print(
+            f"\nHealthy sample "
+            f"{i}/{len(healthy_files)}"
+        )
+
+        process_sample(
+            file_path,
+            "Healthy"
+        )
 
     print("\nFULL COHORT PROCESSING COMPLETE")
