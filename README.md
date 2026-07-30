@@ -32,7 +32,7 @@ Raw cfDNA fragment-level data were obtained from FinaleDB from the Cristiano et 
 
 The FinaleDB query interface was filtered to the relevant breast cancer and healthy plasma samples. Only hg38 fragment files were used in this project.
 
-The exact analytical cohort is listed in:
+The exact 92-sample analytical cohort and expected filenames are documented in:
 
 `data/metadata/cohort_manifest.csv`
 
